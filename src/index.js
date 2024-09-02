@@ -61,6 +61,31 @@ app.get('/users/:id', async (req, res) => {
     }
 })
 
+app.patch('/users/:id', async ( req, res) => {
+
+    //code to ensure user doesn't add any property not in the document
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const isValid = updates.every((update) => allowedUpdates.includes(update))
+    
+    if (!isValid) {
+        return res.status(400).send({error : 'Invalid updates!'})
+    }
+
+    //actual code to update the user
+    try{
+        const _id =  req.params.id
+        const user = await User.findByIdAndUpdate(_id, req.body, {new : true, runValidators: true})
+        if(!user){
+            res.status(404).send()
+        }
+        res.send(user)
+    }
+    catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 app.post('/tasks', async (req, res) => {
 
     try {
