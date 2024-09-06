@@ -15,3 +15,15 @@ app.listen(port, () => {
     console.log('Server is up on port: ' + port)
 })
 
+const bcrypt = require('bcryptjs')
+
+const func = async () => {
+    const password = 'Red12345!'
+    const hashedPassword = await bcrypt.hash(password, 8)
+
+    console.log(password)
+    console.log(hashedPassword)
+
+}
+
+func()
