@@ -1,29 +1,30 @@
-const express = require('express')
-require('./db/mongoose')
-const userRouter = require('./routers/user')
-const taskRouter = require('./routers/task')
+const express = require('express');
+require('./db/mongoose');
+const userRouter = require('./routers/user');
+const taskRouter = require('./routers/task');
+const User = require('./models/user');
 
-const app = express()
-const port = process.env.PORT || 3000
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(express.json())
-app.use(userRouter)
-app.use(taskRouter)
+app.use(express.json());
+app.use(userRouter);
+app.use(taskRouter);
 
+// Function to start the server after ensuring indexes are created
+const startServer = async () => {
+    try {
+        // Ensure the unique index on the email field is created
+        await User.init();
 
-app.listen(port, () => {
-    console.log('Server is up on port: ' + port)
-})
+        // Start the server
+        app.listen(port, () => {
+            console.log('Server is up on port: ' + port);
+        });
+    } catch (error) {
+        console.error('Error during server startup:', error);
+    }
+};
 
-const bcrypt = require('bcryptjs')
-
-const func = async () => {
-    const password = 'Red12345!'
-    const hashedPassword = await bcrypt.hash(password, 8)
-
-    console.log(password)
-    console.log(hashedPassword)
-
-}
-
-func()
+// Start the server
+startServer();
