@@ -7,6 +7,11 @@ const User = require('./models/user');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// app.use((req, res, next) => {
+//     console.log(req.method, req.path)
+//     next()
+// })
+
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
@@ -25,6 +30,18 @@ const startServer = async () => {
         console.error('Error during server startup:', error);
     }
 };
+
+const jwt = require('jsonwebtoken')
+
+const myFunc = async () => {
+    const token = jwt.sign( {_id : 'abc123'}, 'doingsomething')
+    console.log(token)
+
+    const data = jwt.verify(token, 'doingsomething')
+    console.log(data)
+}
+
+myFunc()
 
 // Start the server
 startServer();
