@@ -44,13 +44,32 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//CREATE A SEPARATE FUNCTION TO HIDE SOME DATA
+// userSchema.methods.getPublicProfile = function () {
+//     const user = this
+//     const userObject = user.toObject()
+
+//     delete userObject.password
+//     delete userObject.tokens
+//     return userObject
+// }
+
+//USE IN-BUILT JSON FUNCTION TO HIDE THE SAME DATA -> USED WITHOUT CALLING A FUNCTION USING SHORTHAND
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
+}
+
 userSchema.methods.generateAuthToken = async function (){
     const user = this
     const token = jwt.sign({ _id: user._id.toString()}, 'doingsomething')
 
     user.tokens = user.tokens.concat({ token })
     await user.save()
-    
     return token
 }
 
