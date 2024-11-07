@@ -23,7 +23,7 @@ router.post('/users', async (req, res) => {
     //     res.status(400)
     //     res.send(e)
     // })
-    // console.log(req.body)
+    // console.log(req.body)zerd6c5 e
     // res.send('testing!')
 })
 

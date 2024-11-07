@@ -44,6 +44,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//VIRTUAL SETS UP THE RELATION FOR DOCUMENTS IN MONGOOSE FOR LOCAL FIELD ID AND FOREIGN FIELD DEFINES THE ACTUAL PLACE WHERE THE DATA IS STORED.
+userSchema.virtual('Tasks',{
+    ref : 'Task',
+    localField : '_id',
+    foreignField : 'owner'
+})
+
 //CREATE A SEPARATE FUNCTION TO HIDE SOME DATA
 // userSchema.methods.getPublicProfile = function () {
 //     const user = this
