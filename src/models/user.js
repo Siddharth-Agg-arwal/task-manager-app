@@ -42,7 +42,11 @@ const userSchema = new mongoose.Schema({
             required: true,
         }
     }]
-})
+},
+{
+    timestamps : true,
+}
+)
 
 //VIRTUAL SETS UP THE RELATION FOR DOCUMENTS IN MONGOOSE FOR LOCAL FIELD ID AND FOREIGN FIELD DEFINES THE ACTUAL PLACE WHERE THE DATA IS STORED.
 userSchema.virtual('Tasks',{
