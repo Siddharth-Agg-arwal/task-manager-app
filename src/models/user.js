@@ -75,6 +75,7 @@ userSchema.methods.toJSON = function () {
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avatar // delete avatar JSON as its size may actually slow down the response.
     return userObject
 }
 
