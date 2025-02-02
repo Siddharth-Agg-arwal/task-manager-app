@@ -127,18 +127,18 @@ router.patch('/users/me', auth, async ( req, res) => {
 })
 
 //delete user who's not logged in
-router.delete('/users/:id', async (req, res) => {
-    try {
-        const _id = req.params.id
-        const user = await User.findByIdAndDelete(_id)
+// router.delete('/users/:id', async (req, res) => {
+//     try {
+//         const _id = req.params.id
+//         const user = await User.findByIdAndDelete(_id)
 
-        // await user.remove()
-        res.send(user)
-    }
-    catch (e) {
-        res.status(500).send(e)
-    }
-})
+//         // await user.remove()
+//         res.send(user)
+//     }
+//     catch (e) {
+//         res.status(500).send(e)
+//     }
+// })
 
 //Deleting a user
 router.delete('/users/me', auth, async (req, res) => {
@@ -150,7 +150,9 @@ router.delete('/users/me', auth, async (req, res) => {
         //     return res.status(404).send()
         // }
 
-        await req.user.remove()
+        // console.log("User from auth middleware:", req.user);
+
+        await req.user.deleteOne()
         sendCancellationMail(req.user.email, req.user.name)
         res.send(req.user)
     }

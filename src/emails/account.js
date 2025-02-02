@@ -2,7 +2,7 @@ const brevo = require('@getbrevo/brevo');
 let apiInstance = new brevo.TransactionalEmailsApi();
 
 let apiKey = apiInstance.authentications['apiKey'];
-apiKey.apiKey = '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';
+apiKey.apiKey = process.env.GET_BREVO_API_KEY;
 
 // sendSmtpEmail.subject = "My {{params.subject}}";
 // sendSmtpEmail.htmlContent = "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
@@ -44,6 +44,13 @@ const sendCancellationMail = (email, name) => {
         {"email" : `${email}`, "name" : `${name}`}
     ];
     sendSmtpEmail.htmlContent = `<html><body><h3>We are very sorry to lose you ${name}. Do let us know how we could have provided a better service.</h3></body></html>`;
+
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    }, function (error) {
+        console.error(error);
+    });
+
 }
 
 module.exports = {
