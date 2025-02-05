@@ -8,6 +8,7 @@ const User = require('../src/models/user')
 const userOneId = new mongoose.Types.ObjectId()
 
 const userOne = {
+    _id: userOneId,
     name : 'Ditto',
     email : 'DittoFurr@gmail.com',
     password : 'DittolovesSex',
@@ -50,12 +51,13 @@ test('Should fail on non-existent user', async () => {
 test('Should get profile for user', async () => {
     console.log('Test Token:', userOne.tokens[0].token); // Debug token
 
-    const response = await request(app)
+    await request(app)
         .get('/users/me')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-        .send();
+        .send()
+        .expect(200)
 
-    console.log('Response:', response.status, response.body); // Debug response
+    // console.log('Response:', response.status, response.body); // Debug response
 
-    expect(response.status).toBe(200);
+    
 });
